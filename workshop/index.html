@@ -116,8 +116,16 @@
                 
                 newForm.addEventListener('submit', (e) => {
                     e.preventDefault();
-                    const btn = newForm.querySelector('.btn-submit');
                     
+                    // Salvar os dados do primeiro formulário antes dele sumir da tela
+                    const leadData = {
+                        nome: newForm.querySelector('#name').value,
+                        email: newForm.querySelector('#email').value,
+                        empresa: newForm.querySelector('#company').value,
+                        cargo: newForm.querySelector('#role').value
+                    };
+
+                    const btn = newForm.querySelector('.btn-submit');
                     btn.innerHTML = '<i data-lucide="loader" class="spin"></i> Processando...';
                     lucide.createIcons();
                     
@@ -130,7 +138,7 @@
                                 <form class="survey-form">
                                     <div class="form-group">
                                         <label>Área de Atuação</label>
-                                        <select class="input-field" required>
+                                        <select id="atuacao" class="input-field" required>
                                             <option value="" disabled selected>Selecione sua atuação</option>
                                             <option value="empresa">Empresa / Negócio Local</option>
                                             <option value="autonomo">Empresário Autônomo</option>
@@ -140,11 +148,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Nicho de Mercado</label>
-                                        <input type="text" class="input-field" required placeholder="Ex: Saúde, Tecnologia, Varejo...">
+                                        <input type="text" id="nicho" class="input-field" required placeholder="Ex: Saúde, Tecnologia, Varejo...">
                                     </div>
                                     <div class="form-group">
                                         <label>Posicionamento de Marca Atual</label>
-                                        <select class="input-field" required>
+                                        <select id="posicionamento" class="input-field" required>
                                             <option value="" disabled selected>Como você avalia?</option>
                                             <option value="iniciando">Iniciando / Ainda não definido</option>
                                             <option value="razoavel">Razoável, gostaria de me destacar mais</option>
@@ -154,7 +162,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Gargalo com Conteúdo e Redes Sociais</label>
-                                        <select class="input-field" required>
+                                        <select id="gargalo" class="input-field" required>
                                             <option value="" disabled selected>O que mais te trava?</option>
                                             <option value="tempo">Falta de tempo para produzir</option>
                                             <option value="ideias">Bloqueio criativo e falta de ideias</option>
@@ -164,7 +172,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Nível de Conhecimento em I.A.</label>
-                                        <select class="input-field" required>
+                                        <select id="nivel_ia" class="input-field" required>
                                             <option value="" disabled selected>Selecione seu conhecimento</option>
                                             <option value="basico">Básico (Uso ChatGPT ocasionalmente)</option>
                                             <option value="intermediario">Intermediário (Uso no dia a dia)</option>
@@ -173,7 +181,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Interesse em Automações</label>
-                                        <select class="input-field" required>
+                                        <select id="interesse_auto" class="input-field" required>
                                             <option value="" disabled selected>Qual seu foco?</option>
                                             <option value="curioso">Apenas curioso sobre o assunto</option>
                                             <option value="quero">Quero aplicar para acelerar processos</option>
@@ -182,7 +190,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Tamanho da Equipe / Funcionários</label>
-                                        <select class="input-field" required>
+                                        <select id="tamanho_equipe" class="input-field" required>
                                             <option value="" disabled selected>Tamanho</option>
                                             <option value="eu">Apenas eu (Equipe de 1)</option>
                                             <option value="pequena">Até 15 pessoas</option>
@@ -197,11 +205,39 @@
                         lucide.createIcons();
 
                         const surveyForm = document.querySelector('.survey-form');
-                        surveyForm.addEventListener('submit', (ev) => {
+                        surveyForm.addEventListener('submit', async (ev) => {
                             ev.preventDefault();
                             const surveyBtn = surveyForm.querySelector('.btn-submit');
-                            surveyBtn.innerHTML = '<i data-lucide="loader" class="spin"></i> Analisando Perfil...';
+                            
+                            // Adicionar os dados da pesquisa ao objeto leadData guardado
+                            leadData.atuacao = surveyForm.querySelector('#atuacao').value;
+                            leadData.nicho = surveyForm.querySelector('#nicho').value;
+                            leadData.posicionamento = surveyForm.querySelector('#posicionamento').value;
+                            leadData.gargalo = surveyForm.querySelector('#gargalo').value;
+                            leadData.nivel_ia = surveyForm.querySelector('#nivel_ia').value;
+                            leadData.interesse_auto = surveyForm.querySelector('#interesse_auto').value;
+                            leadData.tamanho_equipe = surveyForm.querySelector('#tamanho_equipe').value;
+
+                            surveyBtn.innerHTML = '<i data-lucide="loader" class="spin"></i> Conectando...';
                             lucide.createIcons();
+
+                            // URL DO WEBHOOK AQUI 
+                            const WEBHOOK_URL = 'COLE_AQUI_A_URL_DO_N8N';
+
+                            try {
+                                // Tenta enviar para o n8n no background sem travar a interface
+                                if(WEBHOOK_URL !== 'COLE_AQUI_A_URL_DO_N8N') {
+                                    await fetch(WEBHOOK_URL, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify(leadData)
+                                    });
+                                }
+                            } catch (e) {
+                                console.error('Erro ao enviar dados para n8n:', e);
+                            }
+                            
+                            surveyBtn.innerHTML = '<i data-lucide="loader" class="spin"></i> Analisando Perfil...';
                             
                             setTimeout(() => {
                                 // Subimos dois nós para substituir toda a caixa ou apenas um se quisermos mater o vidro
@@ -213,7 +249,7 @@
                                     </div>
                                 `;
                                 lucide.createIcons();
-                            }, 1800);
+                            }, 1500);
                         });
                     }, 1200);
                 });
