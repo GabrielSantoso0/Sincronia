@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop VIP | Sincronia Branding e Automação</title>
+    <meta name="description" content="Inscreva-se na lista de espera para o workshop exclusivo sobre o futuro do branding e automação com Inteligência Artificial.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;600&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="capture.css">
+</head>
+<body class="capture-page">
+    <!-- Minimal Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="container nav-content capture-nav">
+            <a href="index.html" class="logo">
+                <img src="Vector.png" alt="Sincronia Logo" class="logo-img">
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero / Capture Section -->
+    <section class="hero capture-hero">
+        <div class="glow-orb"></div>
+        <div class="grid-bg"></div>
+        <div class="container capture-container">
+            
+            <div class="capture-content reveal">
+                <div class="hero-badge">Workshop Presencial Exclusivo</div>
+                <h1 class="hero-title">O Futuro do Branding com <span class="gradient-text">IA e Automação</span></h1>
+                <p class="hero-subtitle">Descubra como grandes marcas estão utilizando agentes autônomos e dados em tempo real para escalar seu posicionamento. Garanta seu lugar na lista de espera para a nossa primeira turma exclusiva.</p>
+                
+                <div class="workshop-features">
+                    <div class="feature-item">
+                        <i data-lucide="zap"></i>
+                        <span>Como aplicar IA generativa na criação de marca</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="bar-chart"></i>
+                        <span>Análise de dados para posicionamento premium</span>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="settings"></i>
+                        <span>Criando sua primeira automação estratégica em minutos</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="capture-form-wrapper reveal" style="transition-delay: 200ms;">
+                <div class="glass-panel form-panel">
+                    <div class="panel-header">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                        <span class="panel-title">sys/registration-form</span>
+                    </div>
+                    <div class="form-body">
+                        <h3 class="form-title">Lista de Espera VIP</h3>
+                        <p class="form-desc">Inscreva-se para garantir acesso antecipado e condições especiais limitadas.</p>
+                        
+                        <form class="workshop-form">
+                            <div class="form-group">
+                                <label for="name">Nome Completo</label>
+                                <input type="text" id="name" class="input-field" required placeholder="Ex: Gabriel Silva">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-mail Profissional</label>
+                                <input type="email" id="email" class="input-field" required placeholder="seunome@empresa.com.br">
+                            </div>
+                            <div class="form-group">
+                                <label for="company">Empresa</label>
+                                <input type="text" id="company" class="input-field" required placeholder="Nome da sua empresa">
+                            </div>
+                            <div class="form-group">
+                                <label for="role">Cargo</label>
+                                <select id="role" class="input-field" required>
+                                    <option value="" disabled selected>Selecione seu cargo</option>
+                                    <option value="ceo">CEO / Founder</option>
+                                    <option value="diretor">Diretor / C-Level</option>
+                                    <option value="gerente">Gerente / Coordenador</option>
+                                    <option value="especialista">Especialista / Analista</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-submit">Garantir Meu Lugar <i data-lucide="arrow-right"></i></button>
+                            <p class="form-security"><i data-lucide="lock"></i> Suas informações estão seguras e criptografadas.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="capture-footer">
+        <div class="container">
+            <p>&copy; 2026 Sincronia Branding e Automação. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // Specific form logic for Workshop Focus
+        document.addEventListener('DOMContentLoaded', () => {
+            const workshopForm = document.querySelector('.workshop-form');
+            if (workshopForm) {
+                // Remove the global form handler if it intercepts
+                const newForm = workshopForm.cloneNode(true);
+                workshopForm.parentNode.replaceChild(newForm, workshopForm);
+                
+                newForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const btn = newForm.querySelector('.btn-submit');
+                    
+                    btn.innerHTML = '<i data-lucide="loader" class="spin"></i> Processando...';
+                    lucide.createIcons();
+                    
+                    setTimeout(() => {
+                        newForm.parentNode.innerHTML = `
+                            <div class="success-message">
+                                <i data-lucide="check-circle" class="success-icon"></i>
+                                <h3>Inscrição Registrada!</h3>
+                                <p>Você entrou para nossa lista VIP. Em breve nossa equipe enviará todas as informações sobre local e datas para o seu e-mail corporativo.</p>
+                            </div>
+                        `;
+                        lucide.createIcons();
+                    }, 1800);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
