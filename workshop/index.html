@@ -123,14 +123,99 @@
                     
                     setTimeout(() => {
                         newForm.parentNode.innerHTML = `
-                            <div class="success-message">
-                                <i data-lucide="check-circle" class="success-icon"></i>
-                                <h3>Inscrição Registrada!</h3>
-                                <p>Você entrou para nossa lista VIP. Em breve nossa equipe enviará todas as informações sobre local e datas para o seu e-mail corporativo.</p>
+                            <div class="survey-container" style="animation: fadeIn 0.5s ease-out;">
+                                <h3 class="form-title" style="margin-bottom: 10px;">Quase lá, <span class="gradient-text">faltam 30s!</span></h3>
+                                <p class="form-desc" style="font-size: 0.95rem; margin-bottom: 25px;">Para personalizar os conteúdos de I.A e Branding para você, responda esta rápida pesquisa.</p>
+                                
+                                <form class="survey-form">
+                                    <div class="form-group">
+                                        <label>Área de Atuação</label>
+                                        <select class="input-field" required>
+                                            <option value="" disabled selected>Selecione sua atuação</option>
+                                            <option value="empresa">Empresa / Negócio Local</option>
+                                            <option value="autonomo">Empresário Autônomo</option>
+                                            <option value="digital">Empreendedor Digital</option>
+                                            <option value="especialista">Especialista / CLT</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nicho de Mercado</label>
+                                        <input type="text" class="input-field" required placeholder="Ex: Saúde, Tecnologia, Varejo...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Posicionamento de Marca Atual</label>
+                                        <select class="input-field" required>
+                                            <option value="" disabled selected>Como você avalia?</option>
+                                            <option value="iniciando">Iniciando / Ainda não definido</option>
+                                            <option value="razoavel">Razoável, gostaria de me destacar mais</option>
+                                            <option value="bom">Bom, mas quero escalar minha autoridade</option>
+                                            <option value="premium">Já é premium / Alta autoridade</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Gargalo com Conteúdo e Redes Sociais</label>
+                                        <select class="input-field" required>
+                                            <option value="" disabled selected>O que mais te trava?</option>
+                                            <option value="tempo">Falta de tempo para produzir</option>
+                                            <option value="ideias">Bloqueio criativo e falta de ideias</option>
+                                            <option value="ia">Não sei como usar I.A. a meu favor</option>
+                                            <option value="constancia">Não consigo manter a constância</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nível de Conhecimento em I.A.</label>
+                                        <select class="input-field" required>
+                                            <option value="" disabled selected>Selecione seu conhecimento</option>
+                                            <option value="basico">Básico (Uso ChatGPT ocasionalmente)</option>
+                                            <option value="intermediario">Intermediário (Uso no dia a dia)</option>
+                                            <option value="avancado">Avançado (Automações, Agentes e Prompts)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Interesse em Automações</label>
+                                        <select class="input-field" required>
+                                            <option value="" disabled selected>Qual seu foco?</option>
+                                            <option value="curioso">Apenas curioso sobre o assunto</option>
+                                            <option value="quero">Quero aplicar para acelerar processos</option>
+                                            <option value="aplico">Já aplico e quero estratégias avançadas</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tamanho da Equipe / Funcionários</label>
+                                        <select class="input-field" required>
+                                            <option value="" disabled selected>Tamanho</option>
+                                            <option value="eu">Apenas eu (Equipe de 1)</option>
+                                            <option value="pequena">Até 15 pessoas</option>
+                                            <option value="media">Até 50 pessoas</option>
+                                            <option value="grande">Mais de 50 pessoas</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-submit" style="margin-top: 15px;">Finalizar e Entrar na Lista VIP <i data-lucide="check"></i></button>
+                                </form>
                             </div>
                         `;
                         lucide.createIcons();
-                    }, 1800);
+
+                        const surveyForm = document.querySelector('.survey-form');
+                        surveyForm.addEventListener('submit', (ev) => {
+                            ev.preventDefault();
+                            const surveyBtn = surveyForm.querySelector('.btn-submit');
+                            surveyBtn.innerHTML = '<i data-lucide="loader" class="spin"></i> Analisando Perfil...';
+                            lucide.createIcons();
+                            
+                            setTimeout(() => {
+                                // Subimos dois nós para substituir toda a caixa ou apenas um se quisermos mater o vidro
+                                surveyForm.parentNode.parentNode.innerHTML = `
+                                    <div class="success-message" style="animation: fadeIn 0.5s ease-out;">
+                                        <i data-lucide="check-circle" class="success-icon"></i>
+                                        <h3>Inscrição e Análise Concluídas!</h3>
+                                        <p>Seu perfil teve um match perfeito com nosso Workshop VIP. Em breve nossa equipe enviará os detalhes exclusivos deste evento ao seu e-mail corporativo.</p>
+                                    </div>
+                                `;
+                                lucide.createIcons();
+                            }, 1800);
+                        });
+                    }, 1200);
                 });
             }
         });
